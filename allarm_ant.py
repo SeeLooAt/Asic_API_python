@@ -6,7 +6,7 @@ import subprocess
 import time
 import datetime
 from colorama import init, Fore, Back, Style
-
+# ip address asic
 ip_ant = ["192.168.31.189", "192.168.31.150", "192.168.31.207", "192.168.31.51",
 			"192.168.31.99", "192.168.31.126", "192.168.31.173",
 			"192.168.31.199", "192.168.31.101", "192.168.31.231", "192.168.31.233",
@@ -16,12 +16,15 @@ ip_ant = ["192.168.31.189", "192.168.31.150", "192.168.31.207", "192.168.31.51",
 DNULL = open(os.devnull, 'w')
 init(autoreset=True)
 
+# play sound if ip not ping
 def ip_err():
 	os.system('paplay sounds/appear.ogg')
 
+# play sound if not connect os
 def device_err():
 	os.system('paplay sounds/gobble.ogg')
 
+# test ping device
 def ping(host,mp_queue):
 	response = subprocess.call(["ping", "-c", "2", "-w", '2', host], stdout=DNULL)
 	if response == 0:
@@ -45,7 +48,7 @@ def worker(ip):
 	results = key
 	return results, value
 
-
+# get status asic
 def getstat(status, nant):
 
 	st = status.split(",")
@@ -61,6 +64,7 @@ def getstat(status, nant):
 			
 		start_GHS5s = slovo["GHS 5s"]
 		ghs5s = float(start_GHS5s)
+		# if hash < 450
 		if ghs5s < 450:
 			print(Back.RED + "!!!XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX!!! ", ghs5s, end='  ')
 			device_err()
@@ -72,6 +76,7 @@ def getstat(status, nant):
 		
 		start_fan1 =  slovo["fan1"]
 		fan1 = int(start_fan1)
+		# Check Fan speed
 		if fan1 > 3000 and fan1 < 3500:
 			print(Fore.YELLOW + "		FAN1: ", fan1, end='  ')
 		elif fan1 > 3500:
